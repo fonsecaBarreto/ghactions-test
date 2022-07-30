@@ -35,7 +35,7 @@ jobs:
         - name: Executing remote command
           uses: appleboy/ssh-action@master
           with:
-            host: ${{ secrets.HOST }}
+            HOST: ${{ secrets.HOST }}
             USERNAME: ${{ secrets.USERNAME }}
             KEY: ${{ secrets.SSHKEY }}
             script: |
