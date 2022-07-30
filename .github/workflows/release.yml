@@ -9,12 +9,33 @@ on:
 
 env:
   IMAGE_NAME: fonsecabarreto/nest-app
+  REGISTRY_NAME: ghactions-test-registry
 
 jobs:
-  pushtoDockerHub:
+  pushToDockerHub:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: docker build . --file Dockerfile --tag $IMAGE_NAME
       - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
       - run: docker push fonsecabarreto/nest-app
+
+  pushToDORegistry:
+    needs: pushToDockerHub
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' 
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+    
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+            token: ${{ secrets.DO_ACCESS_TOKEN }}
+
+      - name: push image to digitalocean
+        run: |
+          doctl registry login
+          docker tag $IMAGE_NAME registry.digitalocean.com/$REGISTRY_NAME/$IMAGE_NAME
+          docker push registry.digitalocean.com/$REGISTRY_NAME/$IMAGE_NAME
