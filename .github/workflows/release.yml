@@ -12,34 +12,27 @@ env:
   REGISTRY_NAME: ghactions-test-registry
 
 jobs:
-
   pushToDORegistry:
-    needs: pushToDockerHub
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' 
     steps:
       - uses: actions/checkout@v3
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
-    
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
             token: ${{ secrets.DO_ACCESS_TOKEN }}
-
       - name: push image to digitalocean
         run: |
           doctl registry login
           docker tag $IMAGE_NAME registry.digitalocean.com/$REGISTRY_NAME/$IMAGE_NAME
           docker push registry.digitalocean.com/$REGISTRY_NAME/$IMAGE_NAME
-  
   deploy:
     needs: pushToDORegistry
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' 
     steps:
-        - uses: actions/checkout@v2
-        - name: Executing remote  command
+        - uses: actions/checkout@v3
+        - name: Executing remote command
           uses: appleboy/ssh-action@master
           with:
             host: ${{ secrets.HOST }}
