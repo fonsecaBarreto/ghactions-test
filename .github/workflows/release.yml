@@ -40,6 +40,7 @@ jobs:
             USERNAME: ${{ secrets.USERNAME }}
             KEY: ${{ secrets.SSHKEY }}
             script: |
+              echo "$IMAGE_NAME"
               # Stop running container
               docker stop $(echo $IMAGE_NAME)
               # Remove old container
