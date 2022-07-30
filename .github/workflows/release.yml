@@ -40,4 +40,13 @@ jobs:
             USERNAME: ${{ secrets.USERNAME }}
             KEY: ${{ secrets.SSHKEY }}
             script: |
-                mkdir ok
+              # Stop running container
+              docker stop $(echo $IMAGE_NAME)
+              # Remove old container
+              docker rm $(echo $IMAGE_NAME)
+              # Run a new container from a new image
+              docker run -d \
+              --restart always \
+              -p 8000:3000 \
+              --name $(echo $IMAGE_NAME) \
+              $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) $(echo $COMMAND)
