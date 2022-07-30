@@ -8,17 +8,10 @@ on:
       - v*
 
 env:
-  IMAGE_NAME: fonsecabarreto/nest-app
+  IMAGE_NAME: nest-app
   REGISTRY_NAME: ghactions-test-registry
 
 jobs:
-  pushToDockerHub:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: docker build . --file Dockerfile --tag $IMAGE_NAME
-      - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
-      - run: docker push fonsecabarreto/nest-app
 
   pushToDORegistry:
     needs: pushToDockerHub
@@ -39,3 +32,18 @@ jobs:
           doctl registry login
           docker tag $IMAGE_NAME registry.digitalocean.com/$REGISTRY_NAME/$IMAGE_NAME
           docker push registry.digitalocean.com/$REGISTRY_NAME/$IMAGE_NAME
+  
+  deploy:
+    needs: pushToDORegistry
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' 
+    steps:
+        - uses: actions/checkout@v2
+        - name: Executing remote  command
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            USERNAME: ${{ secrets.USERNAME }}
+            KEY: ${{ secrets.SSHKEY }}
+            script: |
+                mkdir ok
