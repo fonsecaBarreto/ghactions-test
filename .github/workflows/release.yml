@@ -30,5 +30,7 @@ jobs:
           source: "release.tar"
           target: "app"
           script: |
+            tar xf release.tar 
+            rm release.tar 
             echo "done"
           
