@@ -32,5 +32,5 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          script: |
-            mkdir teste
+          source: "docker-compose-prod.yml"
+          target: "~"
