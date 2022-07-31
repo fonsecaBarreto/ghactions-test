@@ -32,5 +32,6 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          source: "test/a.txt"
-          target: "test"
+          script: | 
+            mkdir testando
+
