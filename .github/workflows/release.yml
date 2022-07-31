@@ -26,6 +26,7 @@ jobs:
           source: "docker-compose-prod.yml"
           target: "app"
           script: |
+            cd app
             docker-compose -f docker-compose-prod.yml down
             docker-compose -f docker-compose-prod.yml up
             echo "done"
