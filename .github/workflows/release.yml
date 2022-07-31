@@ -9,7 +9,7 @@ on:
 
 env:
   IMAGE_NAME: nest-app
-  REGISTRY_NAME: ghactions-test-registry
+  REGISTRY_NAME: fonsecabarreto
 
 jobs:
   pushToDockerHub:
