@@ -23,9 +23,17 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
           source: "conf"
-          target: "conf"
+          target: ""
           rm: true
-          script: |
-            mkdir teste
+      - name: Executing remote command
+        uses: appleboy/ssh-action@master
+        with:
+          PORT: 22
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: | 
+            mkdir testando
+            echo "done"
             
           

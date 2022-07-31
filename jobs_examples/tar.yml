@@ -4,12 +4,8 @@
           cp  docker-compose-prod.yml ../release-files
           tar -cvf deploy.tar ../release-files/
         
-
-
-
-          ssh root@bluechickenwings.online << 'ENDSSH'
-rm -rf app &&
-mkdir app &&
-tar xf test-node-app.tar.gz -C app &&
-rm test-node-app.tar.gz 
-ENDSSH
+               - name: zip production config files
+        run: |
+          mkdir ../release
+          cp -Rv conf ../release
+          tar -cvf release.tar ../release/
