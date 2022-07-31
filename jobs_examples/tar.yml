@@ -1,0 +1,5 @@
+      - name: Run a multi-line script
+        run: |
+          mkdir ../release-files
+          cp  docker-compose-prod.yml ../release-files
+          tar -cvf deploy.tar ../release-files/
