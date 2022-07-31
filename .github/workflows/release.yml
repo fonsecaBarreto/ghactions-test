@@ -22,8 +22,8 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          source: "conf"
-          target: ""
+          source: "conf/*"
+          target: "conf"
           rm: true
       - name: Executing remote command
         uses: appleboy/ssh-action@master
