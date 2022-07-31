@@ -30,6 +30,7 @@ jobs:
           source: "release.tar"
           target: "release"
           script: |
+            mkdir teste
             cd release
             tar xf release.tar &&
             rm release.tar 
