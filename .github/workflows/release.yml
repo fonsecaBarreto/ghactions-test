@@ -25,6 +25,7 @@ jobs:
           source: "conf/nginx, conf/docker-compose.yml"
           target: "conf"
           rm: true
+          strip_components: 1
       - name: Executing remote command
         uses: appleboy/ssh-action@master
         with:
