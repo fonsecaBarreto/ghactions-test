@@ -18,7 +18,7 @@ jobs:
       - name: zip production config files
         run: |
           mkdir ../release
-          cp  conf ../release
+          cp -Rv conf ../release
           tar -cvf release.tar ../release/
       - name: copy file via ssh 
         uses: appleboy/scp-action@master
