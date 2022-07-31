@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run a multi-line script
-      run: |
+      - run: |
         mkdir ../build
         cp -TR . ../build
         tar -cvf deploy.tar ../build/
