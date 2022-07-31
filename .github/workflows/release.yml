@@ -26,7 +26,7 @@ jobs:
         uses: ripplr-io/docr-image-remove@v1
         with:
           image_repository: $IMAGE_NAME
-          buffer_size: 10
+          buffer_size: 1
       - name: push image to digitalocean
         run: |
           doctl registry login
