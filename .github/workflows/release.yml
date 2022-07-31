@@ -25,13 +25,15 @@ jobs:
     needs: pushToDockerHub
     steps:
     - uses: actions/checkout@v3
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@master
+    - name: Executing remote command
+    uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
+        PORT: 22
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
         KEY: ${{ secrets.SSHKEY }}
-        port: 22
+        envs: IMAGE_NAME, REGISTRY_NAME
         source: "docker-compose-prod.yml"
         target: "~"
-
+        script: |
+          echo "teste"
