@@ -8,16 +8,18 @@ on:
       - v*
 
 env:
-  IMAGE_NAME: fonsecabarreto/nest-app
+  IMAGE_NAME: nest-app
+  REGISTRY_NAME: fonsecabarreto
 
 jobs:
+
   pushToDockerHub:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: docker build . --file Dockerfile --tag $IMAGE_NAME
+      - run: docker build . --file Dockerfile --tag $REGISTRY_NAME/$IMAGE_NAME
       - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
-      - run: docker push $IMAGE_NAME 
+      - run: docker push $REGISTRY_NAME/$IMAGE_NAME
   deploy:
     needs: pushToDockerHub
     runs-on: ubuntu-latest
@@ -30,15 +32,12 @@ jobs:
             HOST: ${{ secrets.HOST }}
             USERNAME: ${{ secrets.USERNAME }}
             KEY: ${{ secrets.SSHKEY }}
-            envs: IMAGE_NAME
+            envs: IMAGE_NAME, REGISTRY_NAME
             script: |
-              echo $IMAGE_NAME
-              # Remove old container
               docker stop $(echo $IMAGE_NAME)
               docker rm $(echo $IMAGE_NAME)
-              # Run a new container from a new image
               docker run -d \
               --restart always \
               -p 8080:3000 \
               --name $(echo $IMAGE_NAME) \
-              $(echo $IMAGE_NAME)
+              $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest
