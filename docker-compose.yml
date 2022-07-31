@@ -5,7 +5,7 @@ services:
     ports: 
       - "80:80"
     depends_on:
-      - node-app
+      - nest-app
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
   nest-app:
