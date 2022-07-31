@@ -30,7 +30,7 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          source: "conf/nginx, conf/docker-compose.yml"
+          source: "conf"
           target: "conf"
           rm: true
           strip_components: 1
@@ -43,6 +43,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           envs: IMAGE_NAME, REGISTRY_NAME
           script: | 
+            echo aqui
             docker pull $(echo $REGISTRY_NAME)/(echo $IMAGE_NAME)
 
             
