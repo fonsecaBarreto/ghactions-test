@@ -4,3 +4,10 @@
          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
          ssh-add - <<< "${{ secrets.SSHKEY }}"
          scp docker-compose-prod.yml -P 22 ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~        
+
+
+               - name: zip production config files
+        run: |
+          mkdir ../release
+          cp -Rv conf ../release
+          tar -cvf release.tar ../release/

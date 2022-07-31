@@ -15,11 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: zip production config files
-        run: |
-          mkdir ../release
-          cp -Rv conf ../release
-          tar -cvf release.tar ../release/
       - name: copy file via ssh 
         uses: appleboy/scp-action@master
         with:
@@ -27,12 +22,10 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          source: "release.tar"
+          source: "conf"
           target: "release"
+          rm: true
           script: |
             mkdir teste
-            cd release
-            tar xf release.tar &&
-            rm release.tar 
-            echo "done"
+            
           

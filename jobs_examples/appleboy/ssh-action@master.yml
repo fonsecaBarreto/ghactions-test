@@ -45,3 +45,8 @@ env:
           KEY: ${{ secrets.SSHKEY }}
           script: | 
             mkdir testando
+
+cd release
+            tar xf release.tar &&
+            rm release.tar 
+            echo "done"
