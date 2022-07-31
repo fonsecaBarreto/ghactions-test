@@ -27,7 +27,7 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          source: "docker-compose-prod.yml"
+          source: "release.tar"
           target: "app"
           script: |
             echo "done"
