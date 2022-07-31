@@ -4,3 +4,14 @@
             cd conf
             docker-compose -f nginx-proxy-compose.yml down && 
             docker-compose -f nginx-proxy-compose.yml up -d
+
++
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name bluechickenwings.online;
+
+    location / {
+      proxy_pass http://loadbalancer;
+    }
+}
