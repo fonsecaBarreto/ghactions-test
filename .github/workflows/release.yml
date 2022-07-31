@@ -36,7 +36,10 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           envs: IMAGE_NAME, REGISTRY_NAME
           script: | 
-            docker pull $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME):latest
+            docker pull $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME):latest &&
+            cd conf
+            docker-compose -f nginx-proxy-compose.yml down && 
+            docker-compose -f nginx-proxy-compose.yml up -d
 
 
             
