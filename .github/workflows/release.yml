@@ -26,16 +26,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-        mkdir ../build
-        cp -TR . ../build
-        tar -cvf deploy.tar ../build/
-      - name: Executing remote command
-        uses: appleboy/ssh-action@master
-        with:
-          PORT: 22
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          KEY: ${{ secrets.SSHKEY }}
-          source: "deploy.tar"
-          target: ""
-
+          mkdir ../build
+          cp -TR . ../build
+          tar -cvf deploy.tar ../build/
