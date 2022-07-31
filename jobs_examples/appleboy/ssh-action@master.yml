@@ -6,22 +6,11 @@ on:
     branches: [ "main" ]
     tags:
       - v*
-
 env:
   IMAGE_NAME: nest-app
   REGISTRY_NAME: fonsecabarreto
 
-jobs:
-
-  pushToDockerHub:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: docker build . --file Dockerfile --tag $REGISTRY_NAME/$IMAGE_NAME
-      - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
-      - run: docker push $REGISTRY_NAME/$IMAGE_NAME
   deploy:
-    needs: pushToDockerHub
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -41,3 +30,18 @@ jobs:
             -p 8080:3000 \
             --name $(echo $IMAGE_NAME) \
             $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME):latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: pushToDockerHub
+    steps:
+      - uses: actions/checkout@v3
+      - name: Executing remote command
+        uses: appleboy/ssh-action@master
+        with:
+          PORT: 22
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: | 
+            mkdir testando
