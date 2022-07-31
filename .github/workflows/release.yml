@@ -21,15 +21,16 @@ jobs:
       - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
       - run: docker push $REGISTRY_NAME/$IMAGE_NAME
   deploy:
-    needs: pushToDockerHub
     runs-on: ubuntu-latest
+    needs: pushToDockerHub
     steps:
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      - uses: actions/checkout@v3
-      - name: copying docker-compose.yml to droplet
-      - run: |
-         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-         ssh-add - <<< "${{ secrets.SSHKEY }}"
-         scp docker-compose-prod.yml -P 22 ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~        
-
+    - uses: actions/checkout@v3
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        KEY: ${{ secrets.SSHKEY }}
+        port: 22
+        source: "docker-compose-prod.yml"
+        target: "~"
