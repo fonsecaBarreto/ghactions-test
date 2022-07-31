@@ -26,14 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Executing remote command
-      uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           PORT: 22
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          envs: IMAGE_NAME, REGISTRY_NAME
-          source: "docker-compose-prod.yml"
-          target: "~"
           script: |
-            echo "teste"
+            mkdir teste
