@@ -33,4 +33,4 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
           source: "./docker-compose-prod.yml"
-          target: "~"
+          target: "test"
