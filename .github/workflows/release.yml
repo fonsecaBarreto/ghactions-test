@@ -20,4 +20,14 @@ jobs:
           mkdir ../build
           cp -TR . ../build
           tar -cvf deploy.tar ../build/
+          - name: copy file via ssh password
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          PORT: 22
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          KEY: ${{ secrets.SSHKEY }}
+          source: "deploy.tar"
+          target: ""
           
