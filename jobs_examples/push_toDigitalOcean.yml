@@ -1,0 +1,20 @@
+pushToDORegistry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+            token: ${{ secrets.DO_ACCESS_TOKEN }}
+      - name: Remove old images from Container Registry
+        uses: ripplr-io/docr-image-remove@v1
+        with:
+          image_repository: $IMAGE_NAME
+          buffer_size: 0
+      - name: push image to digitalocean
+        run: |
+          doctl registry login
+          docker tag $IMAGE_NAME registry.digitalocean.com/$REGISTRY_NAME/$IMAGE_NAME
+          docker push registry.digitalocean.com/$REGISTRY_NAME/$IMAGE_NAME
