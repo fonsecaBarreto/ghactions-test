@@ -18,7 +18,7 @@ jobs:
       - name: Run a multi-line script
         run: |
           mkdir ../build
-          cp -TR ./docker-compose-prod.yml ../build
+          cp -TR docker-compose-prod.yml ../build
           tar -cvf deploy.tar ../build/
 
       - name: copy file via ssh 
