@@ -28,6 +28,6 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          source: "deploy.tar"
+          source: "docker-compose-prod.yml"
           target: "app"
           
