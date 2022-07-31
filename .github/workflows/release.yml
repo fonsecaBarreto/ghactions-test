@@ -22,7 +22,7 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          source: "conf/*"
+          source: "conf/nginx, conf/docker-compose.yml"
           target: "conf"
           rm: true
       - name: Executing remote command
@@ -33,7 +33,6 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
           script: | 
-            mkdir testando
             echo "done"
             
           
