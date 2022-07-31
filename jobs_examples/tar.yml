@@ -4,8 +4,3 @@
           cp  docker-compose-prod.yml ../release-files
           tar -cvf deploy.tar ../release-files/
         
-               - name: zip production config files
-        run: |
-          mkdir ../release
-          cp -Rv conf ../release
-          tar -cvf release.tar ../release/
