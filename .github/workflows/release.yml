@@ -18,7 +18,7 @@ jobs:
       - name: Run a multi-line script
         run: |
           mkdir ../build
-          cp -TR docker-compose-prod.yml ../build
+          cp -TR . ../build
           tar -cvf deploy.tar ../build/
 
       - name: copy file via ssh 
@@ -29,5 +29,5 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
           source: "deploy.tar"
-          target: ""
+          target: "app"
           
