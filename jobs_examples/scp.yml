@@ -1,0 +1,6 @@
+      env:
+      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      - run: |
+         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+         ssh-add - <<< "${{ secrets.SSHKEY }}"
+         scp docker-compose-prod.yml -P 22 ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~        
