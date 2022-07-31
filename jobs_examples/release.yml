@@ -25,10 +25,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: copying dokcer-compose.yml to droplet
-        env:
-           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      - run: |
-         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-         ssh-add - <<< "${{ secrets.SSHKEY }}"
-         scp docker-compose-prod.yml -P 22 ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~        
+      - name: Executing remote command
+        uses: appleboy/ssh-action@master
+        with:
+          PORT: 22
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          KEY: ${{ secrets.SSHKEY }}
+          envs: IMAGE_NAME, REGISTRY_NAME
+          script: |
+            docker stop $(echo $IMAGE_NAME)
+            docker rm $(echo $IMAGE_NAME)
+            docker run -d \
+            --restart always \
+            -p 8080:3000 \
+            --name $(echo $IMAGE_NAME) \
+            $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME):latest
