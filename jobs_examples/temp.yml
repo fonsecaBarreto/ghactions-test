@@ -1,8 +1,6 @@
-  pushToDockerHub:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: docker build . --target production --file Dockerfile --tag $REGISTRY_NAME/$IMAGE_NAME
-      - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
-      - run: docker push $REGISTRY_NAME/$IMAGE_NAME
-    needs: pushToDockerHub
+          script: | 
+            
+            docker pull $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME):latest &&
+            cd conf
+            docker-compose -f nginx-proxy-compose.yml down && 
+            docker-compose -f nginx-proxy-compose.yml up -d
