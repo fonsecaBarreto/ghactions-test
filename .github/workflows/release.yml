@@ -19,7 +19,7 @@ jobs:
       - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
       - run: docker push $REGISTRY_NAME/$IMAGE_NAME
   deploy:
-    depends_on: pushToDockerHub
+    needs: pushToDockerHub
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
