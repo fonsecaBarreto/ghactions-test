@@ -28,10 +28,10 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
           source: "release.tar"
-          target: "app"
+          target: "release"
           script: |
-            cap app
-            tar xf release.tar 
+            cd release
+            tar xf release.tar &&
             rm release.tar 
             echo "done"
           
