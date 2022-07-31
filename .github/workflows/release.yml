@@ -36,7 +36,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           envs: IMAGE_NAME, REGISTRY_NAME
           script: | 
-            echo $(echo $IMAGE_NAME)
+            docker pull $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME):latest
 
 
             
