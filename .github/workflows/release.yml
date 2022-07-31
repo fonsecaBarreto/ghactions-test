@@ -40,4 +40,4 @@ jobs:
               --restart always \
               -p 8080:3000 \
               --name $(echo $IMAGE_NAME) \
-              $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest
+              $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME):latest
