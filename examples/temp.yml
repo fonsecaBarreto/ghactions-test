@@ -4,35 +4,3 @@
             cd conf
             docker-compose -f nginx-proxy-compose.yml down && 
             docker-compose -f nginx-proxy-compose.yml up -d
-
-+
-server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    server_name bluechickenwings.online;
-
-    location / {
-      proxy_pass http://loadbalancer;
-    }
-}
-
-upstream loadbalancer {
-  server app:3000;
-}
-
-
-   server {
-    listen 443 default_server ssl http2;
-    listen [::]:443 ssl http2;
-
-    server_name     bluechickenwings.online;
-
-    ssl_certificate /etc/nginx/ssl/live/example.org/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/live/example.org/privkey.pem;
-    
-
-    location / {
-      proxy_pass http://loadbalancer;
-   
-    }
-}
