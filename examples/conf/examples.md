@@ -5,4 +5,3 @@
 # after certificates
   ## to create certificates run
   docker-compose -f nginx-proxy-compose.yml run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d bluechickenwings.online
-
