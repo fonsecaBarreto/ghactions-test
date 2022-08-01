@@ -24,7 +24,6 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           envs: IMAGE_NAME, REGISTRY_NAME
           script: |
-            mkdir test &&
             echo testando &&
-            echo $(echo $REGISTRY_NAME) &&
+            $(echo $REGISTRY_NAME)
             echo $IMAGE_NAME
