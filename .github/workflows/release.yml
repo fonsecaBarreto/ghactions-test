@@ -24,8 +24,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
           envs: IMAGE_NAME, REGISTRY_NAME, DOCKERHUB_PASSWORD, DOCKERHUB_USERNAME
           script: |
-            $(echo $DOCKERHUB_PASSWORD) | docker login -u $(echo $DOCKERHUB_USERNAME) --password-stdin
-            docker pull $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME):latest
-
-            
-          
+            echo $REGISTRY_NAME
+            echo $IMAGE_NAME
+            echo $DOCKERHUB_PASSWORD 
+            echo $DOCKERHUB_USERNAME
