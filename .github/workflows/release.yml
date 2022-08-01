@@ -34,4 +34,9 @@ jobs:
             echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
             docker stop $(echo $IMAGE_NAME)
             docker rm $(echo $IMAGE_NAME)
-            docker pull $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME)
+            docker pull $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME) &&
+            docker run -d \
+            --restart always \
+            --name $(echo $IMAGE_NAME) \
+            -p 3000:3000 \
+            $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest
