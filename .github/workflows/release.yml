@@ -24,4 +24,4 @@ jobs:
           envs: IMAGE_NAME, REGISTRY_NAME,{{secrets.DOCKERHUB_PASSWORD}}, {{secrets.DOCKERHUB_USERNAME}}
           script: |
             echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
-            echo "logado com sucesso!"
+            docker pull $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME)
