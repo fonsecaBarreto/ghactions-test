@@ -11,7 +11,15 @@ env:
   REGISTRY_NAME: fonsecabarreto
 
 jobs:
+  pushToDockerHub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker build . --target production --file Dockerfile --tag $REGISTRY_NAME/$IMAGE_NAME
+      - run: echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
+      - run: docker push $REGISTRY_NAME/$IMAGE_NAME
   deploy:
+    needs: pushToDockerHub
     runs-on: ubuntu-latest
     steps:
       - name: Executing remote command
@@ -24,4 +32,6 @@ jobs:
           envs: IMAGE_NAME, REGISTRY_NAME,{{secrets.DOCKERHUB_PASSWORD}}, {{secrets.DOCKERHUB_USERNAME}}
           script: |
             echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
+            docker stop $(echo $IMAGE_NAME)
+            docker rm $(echo $IMAGE_NAME)
             docker pull $(echo $REGISTRY_NAME)/$(echo $IMAGE_NAME)
