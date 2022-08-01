@@ -39,4 +39,4 @@ jobs:
             --restart always \
             --name $(echo $IMAGE_NAME) \
             -p 3000:3000 \
-            $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest
+            $(echo $REGISTRY)/$(echo $IMAGE_NAME)
