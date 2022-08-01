@@ -12,7 +12,6 @@ env:
 
 jobs:
   deploy:
-    needs: pushToDockerHub
     runs-on: ubuntu-latest
     steps:
       - name: Executing remote command
