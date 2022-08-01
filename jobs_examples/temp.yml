@@ -15,3 +15,17 @@ server {
       proxy_pass http://loadbalancer;
     }
 }
+
+upstream loadbalancer {
+  server app:3000;
+}
+
+
+    depends_on:
+      - app
+      +
+  app:
+    restart: on-failure
+    image: fonsecabarreto/nest-app
+    ports:
+      - '3000:3000'
