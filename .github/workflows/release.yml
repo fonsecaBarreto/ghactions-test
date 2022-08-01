@@ -9,8 +9,7 @@ on:
 env:
   IMAGE_NAME: nest-app
   REGISTRY_NAME: fonsecabarreto
-  DOCKERHUB_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
-  DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,7 +21,7 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
-          envs: IMAGE_NAME, REGISTRY_NAME,DOCKERHUB_PASSWORD, DOCKERHUB_USERNAME
+          envs: IMAGE_NAME, REGISTRY_NAME,{{secrets.DOCKERHUB_PASSWORD}}, {{secrets.DOCKERHUB_USERNAME}}
           script: |
-            echo "(echo $DOCKERHUB_PASSWORD)" | docker login -u (echo $DOCKERHUB_USERNAME) --password-stdin
+            echo "${{secrets.DOCKERHUB_PASSWORD}}" | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
             echo "logado com sucesso!"
