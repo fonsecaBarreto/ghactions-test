@@ -23,4 +23,8 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           KEY: ${{ secrets.SSHKEY }}
           envs: IMAGE_NAME, REGISTRY_NAME
-          script: whoami
+          script: |
+            mkdir test &&
+            echo testando &&
+            echo $(echo $REGISTRY_NAME) &&
+            echo $IMAGE_NAME
